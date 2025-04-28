@@ -16,24 +16,24 @@ contract VaultTest is Test {
 
     function setUp() public {
         mockUSDC = new MockUSDC();
-        vault = new Vault(address(mockUSDC));
-        yieldzAVS = new YieldzAVS(address(vault));
- 
+        yieldzAVS = new YieldzAVS();
+        vault = new Vault(address(mockUSDC), address(yieldzAVS));
     }
 
     function test_deposit() public {
-      mockUSDC.mint(address(this), 1_000_000);
-      mockUSDC.approve(address(vault), 1_000_000);
-      vault.deposit(1_000_000);
+        mockUSDC.mint(address(this), 1_000_000);
+        mockUSDC.approve(address(vault), 1_000_000);
+        vault.deposit(1_000_000);
+        assertEq(vault.totalAssets(), 1_000_000);
 
-      // AVS
-      vm.startPrank(operator1);
-      yieldzAVS.manageFund(address(vault), 1_000_000);
+        // AVS
+        vm.startPrank(operator1);
+        yieldzAVS.borrowFund(address(vault), 1_000_000);
+        assertEq(vault.totalBorrowed(), 1_000_000);
 
-      // Distribute yield
-      IERC20(address(mockUSDC)).approve(address(yieldzAVS), 1_000_000);
-      yieldzAVS.distributeYield(address(vault), 1_000_000);
+        // Distribute yield
+        IERC20(address(mockUSDC)).approve(address(yieldzAVS), 1_000_000);
+        yieldzAVS.distributeYield(address(vault), 1_000_000);
+        assertEq(vault.totalAssets(), 2_000_000);
     }
-
-
 }
