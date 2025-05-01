@@ -2,7 +2,7 @@
 pragma solidity ^0.8.13;
 
 import {Vault} from "./Vault.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract YieldzAVS {
     function borrowFund(address _vault, uint256 amount) public {
