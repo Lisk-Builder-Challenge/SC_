@@ -5,7 +5,7 @@ import {Test, console} from "forge-std/Test.sol";
 import {Vault} from "../src/Vault.sol";
 import {YieldzAVS} from "../src/YieldzAVS.sol";
 import {MockUSDC} from "../src/MockUSDC.sol";
-import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import {IERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract VaultTest is Test {
     Vault public vault;
@@ -25,6 +25,7 @@ contract VaultTest is Test {
         mockUSDC.approve(address(vault), 1_000_000);
         vault.deposit(1_000_000);
         assertEq(vault.totalAssets(), 1_000_000);
+        console.log(vault.balanceOf(address(vault)));
 
         // AVS
         vm.startPrank(operator1);
