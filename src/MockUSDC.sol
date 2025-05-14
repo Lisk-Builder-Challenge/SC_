@@ -9,4 +9,8 @@ contract MockUSDC is ERC20 {
     function mint(address to, uint256 amount) public {
         _mint(to, amount);
     }
+
+    function burn(address to, uint256 shares) public {
+        _burn(to, shares);
+    }
 }

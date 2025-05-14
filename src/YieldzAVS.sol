@@ -5,7 +5,10 @@ import {Vault} from "./Vault.sol";
 import "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 
 contract YieldzAVS {
+    error ZeroAmount();
+
     function borrowFund(address _vault, uint256 amount) public {
+        if (amount < 0) revert ZeroAmount();
         Vault(_vault).borrowByAVS(amount);
         address token = address(Vault(_vault).token());
         IERC20(token).transfer(msg.sender, amount);
