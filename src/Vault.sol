@@ -24,7 +24,7 @@ contract Vault is ERC20 {
         avs = _avs;
     }
 
-    function deposit(uint256 amount) public {
+    function deposit(uint256 amount) public returns (uint256) {
         if (amount == 0) revert ZeroAmount();
         // shares = amount * total shares / total assets
         uint256 shares = 0;
