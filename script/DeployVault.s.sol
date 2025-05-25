@@ -10,8 +10,12 @@ contract DeployVaultScript is Script {
     Vault public vault;
     MockUSDC public mockUSDC;
     YieldzAVS public yieldzAVS;
+    uint256 forkId;
 
-    function setUp() public {}
+    function setUp() public {
+        string memory rpc = vm.envString("SEPOLIA_RPC_URL");
+        forkId = vm.createSelectFork(rpc);
+    }
 
     function run() public {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");

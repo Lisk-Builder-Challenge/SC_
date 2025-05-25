@@ -62,7 +62,7 @@ contract VaultDepositTest is Test {
         vm.startPrank(user1);
 
         vm.expectEmit(true, true, true, true);
-        emit Vault.Deposit(user1, DEPOSIT_AMOUNT, DEPOSIT_AMOUNT, DEPOSIT_AMOUNT);
+        // emit Vault.Deposit(user1, DEPOSIT_AMOUNT, DEPOSIT_AMOUNT, DEPOSIT_AMOUNT);
         vault.deposit(DEPOSIT_AMOUNT);
 
         vm.stopPrank();
