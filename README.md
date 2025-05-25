@@ -1,66 +1,46 @@
-## Foundry
+# YieldDrift: Redefining Stable Yield Through AVS-Driven Capital Allocation
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+📌 **Introduction**  
+YieldDrift is a stablecoin-backed platform designed to optimize capital productivity for users. By enabling users to deposit stable assets, YieldDrift leverages an AVS (Automated Vault Selector) system to allocate funds to vetted investment managers. These managers generate returns through diverse strategies, while users retain the ability to withdraw their funds at any time.
 
-Foundry consists of:
+With a seamless experience and trustless architecture, YieldDrift bridges the gap between traditional fund management and decentralized finance.
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+---
 
-## Documentation
+🏗 **Project Structure**  
+YieldDrift comprises several integral components:
 
-https://book.getfoundry.sh/
+- 📝 **Smart Contracts**: Manage deposits, withdrawals, yield tracking, and investment allocation logic.
+- 💻 **Frontend Application**: Intuitive interface for users to deposit, track earnings, and withdraw funds.
+- ⚙️ **AVS System**: Automatically selects and routes capital to optimal investment managers.
+- 🔗 **Blockchain Integration**: Ensures transparency and on-chain traceability of user funds and yields.
 
-## Usage
+---
 
-### Build
+🌟 **Key Features**
 
-```shell
-$ forge build
-```
+- 💸 **Stablecoin-Based Deposits**: Users deposit stable assets like USDC or DAI to earn yield.
+- 🧠 **AVS-Powered Capital Allocation**: Intelligent contract system selects top-performing investment managers dynamically.
+- 🔁 **Flexible Withdrawals**: Users can withdraw their capital plus earned yield based on fund liquidity.
+- 📊 **Yield Dashboard**: Real-time tracking of portfolio performance and manager distribution.
+- 🛡 **Decentralized and Auditable**: All transactions and fund flows are recorded on-chain for full transparency.
 
-### Test
+---
 
-```shell
-$ forge test
-```
+⚙️ **Setup and Installation**
 
-### Format
+### 📌 Prerequisites
 
-```shell
-$ forge fmt
-```
+- [Foundry](https://book.getfoundry.sh/) – for smart contract development
+- [Node.js](https://nodejs.org/) (Latest LTS version)
+- A supported Ethereum-compatible wallet (e.g., MetaMask)
 
-### Gas Snapshots
+---
 
-```shell
-$ forge snapshot
-```
+### 📥 Installation
 
-### Anvil
+Clone the repository:
 
-```shell
-$ anvil
-```
-
-### Deploy
-
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
-```
-
-### Cast
-
-```shell
-$ cast <subcommand>
-```
-
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+```bash
+git clone https://github.com/Lisk-Builder-Challenge/FE_.git
+cd FE_
