@@ -11,7 +11,12 @@ contract Vault is ERC20 {
     error ZeroAmount();
     error NothingToShares();
 
-    event Deposit(address indexed account, uint256 amount, uint256 shares, uint256 totalAssets);
+    event Deposit(
+        address indexed account, 
+        uint256 amount, 
+        uint256 shares, 
+        uint256 totalAssets
+    );
 
     event Withdraw(
         address indexed user,
@@ -73,7 +78,6 @@ contract Vault is ERC20 {
         uint256 amount = (shares * totalAssets) / totalShares;
 
         // Update totalAssets
-        // Update totalAssets
         totalAssets -= amount;
         _burn(msg.sender, shares);
         token.transfer(msg.sender, amount);
@@ -87,30 +91,30 @@ contract Vault is ERC20 {
         token.transferFrom(msg.sender, address(this), amount);
     }
 
-    function borrowByAVS(uint256 amount) public {
+    function borrowByAVS(uint256 amount) public { // butuh logika pengurangan totalAssets setelah di borrow
         if (msg.sender != avs) revert NotAVS();
         totalBorrowed += amount;
         token.transfer(msg.sender, amount);
     }
 
     //converts share tokens to actual tokens
-    function convertToAssets(uint256 shares) public view returns (uint256) {
-        uint256 totalShares = totalSupply();
-        if (totalShares == 0) return shares;
-        return (shares * totalAssets) / totalShares;
-    }
+    // function convertToAssets(uint256 shares) public view returns (uint256) {
+    //     uint256 totalShares = totalSupply();
+    //     if (totalShares == 0) return shares;
+    //     return (shares * totalAssets) / totalShares;
+    // }
 
     //Convert tokens to share tokens
-    function convertToShares(uint256 assets) public view returns (uint256) {
-        uint256 totalShares = totalSupply();
-        if (totalShares == 0) return assets;
-        return (assets * totalShares) / totalAssets;
-    }
+    // function convertToShares(uint256 assets) public view returns (uint256) {
+    //     uint256 totalShares = totalSupply();
+    //     if (totalShares == 0) return assets;
+    //     return (assets * totalShares) / totalAssets;
+    // }
 
     // Fungsi untuk melihat rasio shares ke token
-    function getShareToTokenRatio() external view returns (uint256) {
-        uint256 totalShares = totalSupply();
-        if (totalShares == 0) return 1e18; // 1:1 jika belum ada shares
-        return (totalAssets * 1e18) / totalShares; // Dalam 18 desimal
-    }
+    // function getShareToTokenRatio() external view returns (uint256) {
+    //     uint256 totalShares = totalSupply();
+    //     if (totalShares == 0) return 1e18; // 1:1 jika belum ada shares
+    //     return (totalAssets * 1e18) / totalShares; // Dalam 18 desimal
+    // }
 }
