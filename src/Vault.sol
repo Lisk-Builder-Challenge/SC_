@@ -94,7 +94,10 @@ contract Vault is ERC20 {
     function borrowByAVS(uint256 amount) public { // butuh logika pengurangan totalAssets setelah di borrow
         if (msg.sender != avs) revert NotAVS();
         totalBorrowed += amount;
+        totalAssets -= amount;
         token.transfer(msg.sender, amount);
+
+        emit Borrowed(msg.sender, amount, block.timestamp); //catat pinjaman per operator
     }
 
     //converts share tokens to actual tokens
