@@ -98,23 +98,23 @@ contract Vault is ERC20 {
     }
 
     //converts share tokens to actual tokens
-    // function convertToAssets(uint256 shares) public view returns (uint256) {
-    //     uint256 totalShares = totalSupply();
-    //     if (totalShares == 0) return shares;
-    //     return (shares * totalAssets) / totalShares;
-    // }
+    function convertToAssets(uint256 shares) public view returns (uint256) {
+        uint256 totalShares = totalSupply();
+        if (totalShares == 0) return shares;
+        return (shares * totalAssets) / totalShares;
+    }
 
     //Convert tokens to share tokens
-    // function convertToShares(uint256 assets) public view returns (uint256) {
-    //     uint256 totalShares = totalSupply();
-    //     if (totalShares == 0) return assets;
-    //     return (assets * totalShares) / totalAssets;
-    // }
+    function convertToShares(uint256 assets) public view returns (uint256) {
+        uint256 totalShares = totalSupply();
+        if (totalShares == 0) return assets;
+        return (assets * totalShares) / totalAssets;
+    }
 
-    // Fungsi untuk melihat rasio shares ke token
-    // function getShareToTokenRatio() external view returns (uint256) {
-    //     uint256 totalShares = totalSupply();
-    //     if (totalShares == 0) return 1e18; // 1:1 jika belum ada shares
-    //     return (totalAssets * 1e18) / totalShares; // Dalam 18 desimal
-    // }
+    //Fungsi untuk melihat rasio shares ke token
+    function getShareToTokenRatio() external view returns (uint256) {
+        uint256 totalShares = totalSupply();
+        if (totalShares == 0) return 1e18; // 1:1 jika belum ada shares
+        return (totalAssets * 1e18) / totalShares; // Dalam 18 desimal
+    }
 }

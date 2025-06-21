@@ -12,7 +12,7 @@ contract VaultTest is Test {
     YieldzAVS public yieldzAVS;
     MockUSDC public mockUSDC;
 
-    address operator1 = makeAddr("operator1");
+   address operator1 = makeAddr("operator1");
 
     function setUp() public {
         mockUSDC = new MockUSDC();
