@@ -44,10 +44,10 @@ contract Vault is ERC20, ReentrancyGuard {
 
     function deposit(uint256 amount) public nonReentrant returns (uint256) {
         if (amount == 0) revert ZeroAmount();
-        // shares = amount * total shares / total assets
         uint256 shares = convertToShares(amount);
-        totalAssets += amount;
         uint256 totalShares = totalSupply();
+        shares = amount * totalShares / totalAssets;
+        totalAssets += amount;
 
         _mint(msg.sender, shares);
 
@@ -87,7 +87,7 @@ contract Vault is ERC20, ReentrancyGuard {
     function convertToShares(uint256 assets) public view returns (uint256) {
         uint256 totalShares = totalSupply();
         if (totalShares == 0) return assets;
-        return (assets * totalShares) / totalAssets;
+        return (assets * totalShares) / totalAssets; // <- Shares
     }
 
     //// Returns the ratio of shares to tokens in 18 decimals (e.g., 1e18 = 1 token per share) <- perlu riset lebih lanjut
