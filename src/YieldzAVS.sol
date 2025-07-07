@@ -9,7 +9,7 @@ contract YieldzAVS {
     error NoActiveLoan();
     error InsufficientRepayment();
 
-    struct Loan{
+    struct Loan {
         uint256 amount; //jumlahtoken yang dipinjam
         uint256 interestRate; //untuk bunga
         uint256 borrowedAt; //menghitung bunga -> durasi peminjaman
@@ -21,35 +21,27 @@ contract YieldzAVS {
     mapping(address => Loan) public operatorLoans;
 
     //operator meminjam
-    event Borrowed(
-        address indexed operator,
-        uint256 amount,
-        uint256 interestRate, //tingkat bunga dalam basis poin
-        uint256 maturity
-    );
+    event Borrowed( //tingkat bunga dalam basis poin
+    address indexed operator, uint256 amount, uint256 interestRate, uint256 maturity);
 
     //operator melunasi
-    event Repaid(
-        address indexed operator,
-        uint256 amount,
-        uint256 interest //bunga yang harus dibayar
-    );
+    event Repaid( //bunga yang harus dibayar
+    address indexed operator, uint256 amount, uint256 interest);
 
     //hasil(yield) didistribusikan ke kontrak vault
-    event DistributeYield(
-        address indexed vault,
-        uint256 amount
-    );
+    event DistributeYield(address indexed vault, uint256 amount);
 
-    function borrowFund(address _vault, address operator, uint256 amount, uint256 interestRate, uint256 maturity) external {
+    function borrowFund(address _vault, address operator, uint256 amount, uint256 interestRate, uint256 maturity)
+        external
+    {
         if (amount == 0) revert ZeroAmount();
 
         //memperbarui operatorLoans dengan data pinjama baru
-        operatorLoans[operator] = Loan(amount, interestRate, block.timestamp, maturity); 
+        operatorLoans[operator] = Loan(amount, interestRate, block.timestamp, maturity);
         //Memanggil removeAssets(operator, amount) pada kontrak Vault untuk mentransfer amount token ke operator dan memperbarui state Vault (totalAssets dan totalBorrowed).
         Vault(_vault).removeAssets(operator, amount);
-        // address token = address(Vault(_vault).token());
-        // IERC20(token).transfer(msg.sender, amount);
+        //address token = address(Vault(_vault).token());
+        //IERC20(token).transfer(msg.sender, amount);
 
         emit Borrowed(operator, amount, interestRate, maturity);
     }
@@ -66,25 +58,19 @@ contract YieldzAVS {
         Vault(_vault).addAssets(amount);
 
         emit DistributeYield(_vault, amount);
-
-
-        // address token = address(Vault(_vault).token());
-        // IERC20(token).transferFrom(msg.sender, address(this), amount);
-        // IERC20(token).approve(address(_vault), amount);
-        // Vault(_vault).distributeYield(amount);
     }
 
     function repayByAVS(address _vault, address operator, uint256 amount) external {
         //mengambil data pinjaman operator dari operatorLoans
         Loan memory loan = operatorLoans[operator];
-        
+
         //Menghitung bunga dengan rumus <-perlu riset lebih
-        if(loan.amount == 0) revert NoActiveLoan();
+        if (loan.amount == 0) revert NoActiveLoan();
         uint256 interest = (loan.amount * loan.interestRate * (block.timestamp - loan.borrowedAt)) / (365 days * 10000);
         uint256 totalRepayment = loan.amount + interest;
 
         //Periksa apakah amount yang dibayarkan cukup untuk menutup totalRepayment
-        if(amount < totalRepayment) revert InsufficientRepayment();
+        if (amount < totalRepayment) revert InsufficientRepayment();
 
         //menghapus data pinjaman operator
         delete operatorLoans[operator];
@@ -95,7 +81,7 @@ contract YieldzAVS {
         token.transferFrom(operator, address(this), amount);
         token.approve(_vault, amount);
 
-        //kirim token ke Vault    
+        //kirim token ke Vault
         Vault(_vault).addAssets(amount);
 
         //mengurangi totalBorrwoed
@@ -105,8 +91,12 @@ contract YieldzAVS {
     }
 
     //Mengembalikan detail pinjaman untuk operator tertentu.
-    function getLoanDetails(address operator) external view returns (uint256 amount, uint256 interestRate, uint256 borrowedAt, uint256 maturity) {
-    Loan memory loan = operatorLoans[operator];
-    return (loan.amount, loan.interestRate, loan.borrowedAt, loan.maturity);
+    function getLoanDetails(address operator)
+        external
+        view
+        returns (uint256 amount, uint256 interestRate, uint256 borrowedAt, uint256 maturity)
+    {
+        Loan memory loan = operatorLoans[operator];
+        return (loan.amount, loan.interestRate, loan.borrowedAt, loan.maturity);
     }
 }

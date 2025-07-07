@@ -87,7 +87,7 @@ contract Vault is ERC20, ReentrancyGuard {
     function convertToShares(uint256 assets) public view returns (uint256) {
         uint256 totalShares = totalSupply();
         if (totalShares == 0) return assets;
-        return (assets * totalShares) / totalAssets; // <- Shares
+        return (assets * totalShares) / totalAssets; 
     }
 
     //// Returns the ratio of shares to tokens in 18 decimals (e.g., 1e18 = 1 token per share) <- perlu riset lebih lanjut
