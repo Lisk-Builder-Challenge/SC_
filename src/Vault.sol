@@ -13,7 +13,6 @@ contract Vault is ERC20, ReentrancyGuard {
     error Unauthorized();
     error InsufficientLiquidity();
 
-
     event Deposit(
         address indexed account, 
         uint256 amount, 
@@ -23,7 +22,7 @@ contract Vault is ERC20, ReentrancyGuard {
     event Withdraw(
         address indexed user,
         uint256 shares,
-        uint256 amount
+        uint256 amount  
     );
 
     event AssetsAdded(uint256 amount);
@@ -46,12 +45,15 @@ contract Vault is ERC20, ReentrancyGuard {
         if (amount == 0) revert ZeroAmount();
         uint256 shares = convertToShares(amount);
         uint256 totalShares = totalSupply();
-        shares = amount * totalShares / totalAssets;
+        if (totalShares == 0 || totalAssets == 0){
+            shares = amount;
+        } else {
+            shares = amount * totalShares / totalAssets;
+        }
         totalAssets += amount;
 
         _mint(msg.sender, shares);
 
-        // Transfer token dari pengguna ke kontrak
         token.transferFrom(msg.sender, address(this), amount);
 
         emit Deposit(msg.sender, amount, shares); 
@@ -59,7 +61,6 @@ contract Vault is ERC20, ReentrancyGuard {
     }
 
     function withdraw(uint256 shares) public nonReentrant{
-        // Validasi
         if (shares > balanceOf(msg.sender)) revert NotEnoughShares();
         if (shares <= 0) revert NothingToShares();
 
@@ -72,7 +73,6 @@ contract Vault is ERC20, ReentrancyGuard {
         _burn(msg.sender, shares);
         token.transfer(msg.sender, amount);
 
-        // Emit event withdraw dengan format baru
         emit Withdraw(msg.sender, shares, amount);
     }
 
@@ -90,7 +90,7 @@ contract Vault is ERC20, ReentrancyGuard {
         return (assets * totalShares) / totalAssets; 
     }
 
-    //// Returns the ratio of shares to tokens in 18 decimals (e.g., 1e18 = 1 token per share) <- perlu riset lebih lanjut
+    // Returns the ratio of shares to tokens in 18 decimals (e.g., 1e18 = 1 token per share) <- perlu riset lebih lanjut
     function getShareToTokenRatio() external view returns (uint256) {
         uint256 totalShares = totalSupply();
         if (totalShares == 0) return 1e18; // 1:1 jika belum ada shares
