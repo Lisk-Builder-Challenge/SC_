@@ -6,7 +6,7 @@ import {Vault} from "../src/Vault.sol";
 import {YieldzAVS} from "../src/YieldzAVS.sol";
 import {IERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/IERC20.sol";
 import {ERC20} from "lib/openzeppelin-contracts/contracts/token/ERC20/ERC20.sol";
-import {MockUSDC} from "../src/MockUp.sol";
+import {MockUSDC} from "../src/MockUSDC.sol";
 
 contract VaultTest is Test {
     MockUSDC public usdc;
