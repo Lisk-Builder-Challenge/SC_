@@ -38,6 +38,7 @@ contract Vault is ERC20, ReentrancyGuard {
 
     constructor(address _token, address _avs) ERC20("Yield Vault", "YVAULT") {
         token = IERC20(_token);
+        totalAssets = token.balanceOf(address(this));
         avs = _avs;
     }
 
@@ -108,7 +109,7 @@ contract Vault is ERC20, ReentrancyGuard {
         emit AssetsAdded(amount);
     }
 
-    //Memungkinkan kontrak YieldzAVS mengambil aset dari Vault untuk peminjamanu
+    //Memungkinkan kontrak YieldzAVS mengambil aset dari Vault untuk peminjaman
     function removeAssets(address operator, uint256 amount) external {
         if (msg.sender != avs) revert Unauthorized();
         if (amount > totalAssets - totalBorrowed) revert InsufficientLiquidity();

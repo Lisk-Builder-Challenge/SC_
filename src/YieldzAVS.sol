@@ -20,16 +20,23 @@ contract YieldzAVS {
     //Tujuan : menyimpan detail pinjamam untuk setiap operator
     mapping(address => Loan) public operatorLoans;
 
-    //operator meminjam
-    event Borrowed( //tingkat bunga dalam basis poin
-    address indexed operator, uint256 amount, uint256 interestRate, uint256 maturity);
+    event Borrowed( 
+        address indexed operator, 
+        uint256 amount, 
+        uint256 interestRate, 
+        uint256 maturity
+    );
 
-    //operator melunasi
-    event Repaid( //bunga yang harus dibayar
-    address indexed operator, uint256 amount, uint256 interest);
+    event Repaid(
+        address indexed operator, 
+        uint256 amount, 
+        uint256 interest
+    );
 
-    //hasil(yield) didistribusikan ke kontrak vault
-    event DistributeYield(address indexed vault, uint256 amount);
+    event DistributeYield(
+        address indexed vault, 
+        uint256 amount
+    );
 
     function borrowFund(address _vault, address operator, uint256 amount, uint256 interestRate, uint256 maturity)
         external
@@ -91,9 +98,7 @@ contract YieldzAVS {
     }
 
     //Mengembalikan detail pinjaman untuk operator tertentu.
-    function getLoanDetails(address operator)
-        external
-        view
+    function getLoanDetails(address operator) external view
         returns (uint256 amount, uint256 interestRate, uint256 borrowedAt, uint256 maturity)
     {
         Loan memory loan = operatorLoans[operator];
