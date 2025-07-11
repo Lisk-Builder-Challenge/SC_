@@ -83,11 +83,4 @@ contract YieldzAVSTest is Test {
         console.log("Total Assets di vault: ", usdc.balanceOf(address(vault)));
         vm.stopPrank();
     }
-
-    function test_RepayByAVS() public{
-        vm.startPrank(operator);
-        
-        vm.stopPrank();
-    }
-
 }
