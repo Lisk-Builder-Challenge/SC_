@@ -43,9 +43,7 @@ contract YieldzAVS {
     {
         if (amount == 0) revert ZeroAmount();
 
-        //memperbarui operatorLoans dengan data pinjama baru
         operatorLoans[operator] = Loan(amount, interestRate, block.timestamp, maturity);
-        //Memanggil removeAssets(operator, amount) pada kontrak Vault untuk mentransfer amount token ke operator dan memperbarui state Vault (totalAssets dan totalBorrowed).
         Vault(_vault).removeAssets(operator, amount);
         //address token = address(Vault(_vault).token());
         //IERC20(token).transfer(msg.sender, amount);
@@ -57,11 +55,8 @@ contract YieldzAVS {
         if (amount == 0) revert ZeroAmount();
         //Mengambil alamat token ERC20 dari Vault menggunakan fungsi token() (diasumsikan Vault memiliki getter token untuk mengembalikan alamat token).
         IERC20 token = IERC20(Vault(_vault).token());
-        //Mentransfer amount token dari msg.sender ke kontrak YieldzAVS menggunakan transferFrom. Ini memerlukan msg.sender telah memberikan allowance ke YieldzAVS.
         token.transferFrom(msg.sender, address(this), amount);
-        //Memberikan persetujuan (approve) kepada Vault untuk mengambil amount token dari YieldzAVS.
         token.approve(_vault, amount);
-        //Memanggil addAssets di Vault untuk mentransfer token ke Vault dan memperbarui totalAssets.
         Vault(_vault).addAssets(amount);
 
         emit DistributeYield(_vault, amount);

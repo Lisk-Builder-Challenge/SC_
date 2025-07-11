@@ -20,6 +20,11 @@ contract YieldzAVSTest is Test {
         uint256 maturity
     );
 
+    event DistributeYield(
+        address indexed vault, 
+        uint256 amount
+    );
+
     address public User1 = makeAddr("User1");
     address public User2 = makeAddr("User2");
     address public operator = makeAddr("operator");
@@ -67,10 +72,21 @@ contract YieldzAVSTest is Test {
         vm.stopPrank();
     }
 
-    function test_BorrowFund_ZeroAmount() public {
+    function test_DistributeYield() public{
         vm.startPrank(operator);
-        vm.expectRevert(abi.encodeWithSelector(YieldAVS.zeroAmount.selector));
-        avs.borrowFund(address(vault), operator, zeroAmount, interestRate, maturity);
+        usdc.approve(address(avs), type(uint256).max);
+        vm.expectEmit(true, true, false, true, address(avs));
+        emit DistributeYield(address(vault), yield);
+        avs.distributeYield(address(vault), yield);
+        console.log ("Total Shares di Vault: ", vault.totalAssets());
+        console.log("Shares yang dipegang AVS: ", usdc.balanceOf(address(avs)));
+        console.log("Total Assets di vault: ", usdc.balanceOf(address(vault)));
+        vm.stopPrank();
+    }
+
+    function test_RepayByAVS() public{
+        vm.startPrank(operator);
+        
         vm.stopPrank();
     }
 

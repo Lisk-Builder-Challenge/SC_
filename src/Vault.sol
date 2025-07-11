@@ -35,6 +35,8 @@ contract Vault is ERC20, ReentrancyGuard {
     uint256 public totalAssets; 
     // total token yang dipinjam AVS
     uint256 public totalBorrowed; 
+    //total token representif yang dikelola vault
+    uint256 public totalShares;
 
     constructor(address _token, address _avs) ERC20("Yield Vault", "YVAULT") {
         token = IERC20(_token);
@@ -45,12 +47,6 @@ contract Vault is ERC20, ReentrancyGuard {
     function deposit(uint256 amount) public nonReentrant returns (uint256) {
         if (amount == 0) revert ZeroAmount();
         uint256 shares = convertToShares(amount);
-        uint256 totalShares = totalSupply();
-        if (totalShares == 0 || totalAssets == 0){
-            shares = amount;
-        } else {
-            shares = amount * totalShares / totalAssets;
-        }
         totalAssets += amount;
 
         _mint(msg.sender, shares);

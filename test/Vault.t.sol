@@ -61,8 +61,8 @@ contract VaultTest is Test {
         assertEq(vault.totalAssets(), yield + Deposit_pertama , "Total Assets should include yield");
         console.log("-----Ada yield yang dibagikan----");
         console.log("Shares User 1: ", vault.balanceOf(User1));
-        console.log("Total assets after yield: ", vault.totalAssets());
-        console.log("Total apa ini: ", vault.convertToAssets(vault.totalAssets()));
+        console.log("Total shares after yield: ", vault.totalSupply());
+        console.log("Total assets yang ada di vault: ", vault.totalAssets());
         vm.stopPrank();
 
         //User2 deposit setelah ada Distribute Yield
